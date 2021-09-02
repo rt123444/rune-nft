@@ -1,15 +1,19 @@
 import React, { useState, lazy, Suspense } from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import Instagram from '@material-ui/icons/Instagram'
+import FacebookIcon from '@material-ui/icons/Facebook'
+import TwitterIcon from '@material-ui/icons/Twitter'
 import { Helmet } from 'react-helmet'
 import Paper from '@material-ui/core/Paper'
 import { Scrollbars } from 'react-custom-scrollbars'
 import Toolbar from '@material-ui/core/Toolbar'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import Button from '@material-ui/core/Button'
+import {CountdownCircleTimer} from 'react-countdown-circle-timer'
 import { useHistory } from 'react-router-dom'
 import { useTheme as useAppTheme } from 'material-ui-shell/lib/providers/Theme'
+
 const PageContent = lazy(() => import('./PageContent'))
 const Footer = lazy(() => import('./Footer'))
 const ResponsiveMenu = lazy(() =>
@@ -21,8 +25,11 @@ const theme = createMuiTheme({
     primary: { main: '#242424' },
     secondary: {
       main: '#c62828',
-    },
+    }
   },
+  typography: {
+    fontFamily: 'Garamond'
+  }
 })
 
 const LandingPage = () => {
@@ -57,6 +64,34 @@ const LandingPage = () => {
       },
     },
   ]
+  const minuteSeconds = 60;
+  const hourSeconds = 3600;
+  const daySeconds = 86400;
+  
+  const timerProps = {
+    isPlaying: true,
+    size: 120,
+    strokeWidth: 6
+  };
+  
+  const renderTime = (dimension, time) => {
+    return (
+      <div className="time-wrapper">
+        <div style={{fontSize: '32px'}}>{time}</div>
+        <div>{dimension}</div>
+      </div>
+    );
+  };
+  const getTimeSeconds = (time) => (minuteSeconds - time) | 0;
+const getTimeMinutes = (time) => ((time % hourSeconds) / minuteSeconds) | 0;
+const getTimeHours = (time) => ((time % daySeconds) / hourSeconds) | 0;
+const getTimeDays = (time) => (time / daySeconds) | 0;
+const startTime = Date.now() / 1000; // use UNIX timestamp in seconds
+const endTime = startTime + 243248; // use UNIX timestamp in seconds
+
+const remainingTime = endTime - startTime;
+const days = Math.ceil(remainingTime / daySeconds);
+const daysDuration = days * daySeconds;
 
   return (
     <ThemeProvider theme={theme}>
@@ -125,7 +160,7 @@ const LandingPage = () => {
                 }}
               >
                 <img
-                  src={'/rmw.svg'}
+                  src={'/celtic-knot.svg'}
                   alt="logo"
                   style={{
                     height: 35,
@@ -137,10 +172,19 @@ const LandingPage = () => {
                 />
               </div>
               <div style={{ flex: 1 }} />
-
-              <Suspense fallback={<CircularProgress />}>
+                <img
+                    src={'/twitter.svg'}
+                    alt="logo"
+                    style={{
+                      height: 35,
+                      justifySelf: 'center',
+                      color: 'white',
+                      marginLeft: 12,
+                      display: transparent ? 'none' : undefined,
+                    }}
+                  />              {/* <Suspense fallback={<CircularProgress />}>
                 <ResponsiveMenu sections={sections} />
-              </Suspense>
+              </Suspense> */}
             </Toolbar>
           </AppBar>
           <div style={{ width: '100%', height: '100%' }}>
@@ -167,7 +211,7 @@ const LandingPage = () => {
                 }}
               >
                 <img
-                  src={'/rmw.svg'}
+                  src={'/celtic-knot.svg'}
                   alt="logo"
                   style={{ height: 150, maxWidth: 280, justifySelf: 'center' }}
                 />
@@ -179,21 +223,33 @@ const LandingPage = () => {
                       textAlign: 'center',
                       fontWeight: 'bold',
                       fontSize: 50,
+                      margin: '10px'
                     }}
                   >
-                    REACT MOST WANTED
+                    RUNE NFT
                   </h3>
-
-                  <h4
-                    style={{
-                      color: 'white',
-                      textAlign: 'center',
-                      fontSize: 25,
-                      marginTop: -40,
-                    }}
-                  >
-                    React Starter-Kit with all Most Wanted features
-                  </h4>
+                  <div style={{width: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', fontSize: 18, margin: '10px', color: 'red'}}>
+                    <div style={{width: '200px', display: 'flex', justifyContent: 'center'}}>
+                      <div style={{margin: '10px auto'}}><FacebookIcon ></FacebookIcon></div>
+                      <div style={{margin: '10px auto'}}><TwitterIcon ></TwitterIcon></div>
+                      <div style={{margin: '10px auto'}}><Instagram ></Instagram></div>
+                    </div>
+                  </div>
+                  <div style={{width: '600px'}}>
+                    <h4
+                      style={{
+                        color: 'white',
+                        textAlign: 'center',
+                        fontSize: 18,
+                        margin: '10px',
+                      }}
+                    >
+                      Rune is an NFT collection of magical letters. 
+                      Letters can be combined to trade-in for a magical word. 
+                      When a word is minted no one can ever mint that same word and the original letters will be burned forever. 
+                      Original letters are limited with only 5200 ever made.
+                    </h4>
+                  </div>
                 </div>
               </div>
             </div>
@@ -206,54 +262,7 @@ const LandingPage = () => {
                 marginTop: -80,
               }}
             >
-              <Paper
-                elevation={3}
-                style={{
-                  width: '100%',
-                  maxWidth: '90%',
-                  borderRadius: 15,
-                  minHeight: 400,
-                }}
-              >
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    marginTop: -50,
-                  }}
-                >
-                  <Button
-                    size="large"
-                    style={{
-                      margin: 30,
-                      borderRadius: '40px',
-                      fontSize: 'bold',
-                    }}
-                    aria-label="Start button"
-                    variant="contained"
-                    color="secondary"
-                    name={'signin'}
-                    onClick={() => {
-                      history.push('/dashboard')
-                    }}
-                  >
-                    Start
-                  </Button>
-                </div>
-                {scrolled && (
-                  <Suspense fallback={<CircularProgress />}>
-                    <PageContent setComponents={setComponents} />
-                  </Suspense>
-                )}
-              </Paper>
             </div>
-            <div style={{ height: 200 }}></div>
-            {scrolled && (
-              <Suspense fallback={<CircularProgress />}>
-                <Footer />
-              </Suspense>
-            )}
           </div>
         </Scrollbars>
       </React.Fragment>

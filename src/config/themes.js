@@ -12,6 +12,9 @@ const themes = [
           main: '#c62828',
         },
       },
+      typography: {
+        fontFamily: 'Raleway, Arial',
+      },
     },
   },
   {
@@ -23,6 +26,9 @@ const themes = [
         secondary: pink,
         error: red,
       },
+      typography: {
+        fontFamily: 'Raleway, Arial',
+      },
     },
   },
   {
@@ -33,6 +39,9 @@ const themes = [
         primary: green,
         secondary: red,
         error: red,
+      },
+      typography: {
+        fontFamily: 'Raleway, Arial',
       },
     },
   },
